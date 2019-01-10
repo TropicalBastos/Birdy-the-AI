@@ -1,0 +1,6 @@
+Makefile
+myproject
+birdy
+*.cmake
+CMakeCache.txt
+CMakeFiles
