@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
     Scene scene(&window);
 
     sf::Texture texture;
-    texture.loadFromFile("res/texture/player.png");
+    texture.loadFromFile("res/texture/birdy.png");
     sf::Sprite playerSprite(texture);
     Birdy birdy(&window, sf::Vector2f(0, 0), 0.5f, playerSprite);
     birdy.setPos(sf::Vector2f((SCREEN_WIDTH / 2) - (birdy.getWidth() / 2), (SCREEN_HEIGHT / 2) - (birdy.getHeight() / 2)));
