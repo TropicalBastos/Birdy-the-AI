@@ -1,21 +1,21 @@
-#include "Player.h"
+#include "Birdy.h"
 
-void Player::moveUp()
+void Birdy::moveUp()
 {
     m_pos.y += m_speed;
 }
 
-void Player::moveDown()
+void Birdy::moveDown()
 {
     m_pos.y -= m_speed;
 }
 
-void Player::moveLeft()
+void Birdy::moveLeft()
 {
     m_pos.x -= m_speed;
 }
 
-void Player::moveRight()
+void Birdy::moveRight()
 {
     m_pos.x += m_speed;
 }

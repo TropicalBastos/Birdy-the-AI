@@ -1,12 +1,12 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef Birdy_H
+#define Birdy_H
 
 #include "Object.h"
 
-class Player : public Object {
+class Birdy : public Object {
 
     public:
-        Player(sf::RenderWindow* window, sf::Vector2f pos, float speed, sf::Sprite sprite) : 
+        Birdy(sf::RenderWindow* window, sf::Vector2f pos, float speed, sf::Sprite sprite) : 
             Object(window, pos, speed, sprite) 
             {}
 
@@ -14,6 +14,7 @@ class Player : public Object {
         void moveDown();
         void moveLeft();
         void moveRight();
+
 
 };
 
