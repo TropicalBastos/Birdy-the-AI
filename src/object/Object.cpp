@@ -1,5 +1,14 @@
 #include "Object.h"
 
+Object::Object(sf::RenderWindow* parent, sf::Vector2f pos, float speed, std::string texturePath) : 
+    m_parent(parent),
+    m_pos(pos), 
+    m_speed(speed)
+{
+   m_texture.loadFromFile(texturePath);
+   m_drawable = sf::Sprite(m_texture); 
+};
+
 void Object::draw() 
 {
     m_drawable.setPosition(m_pos);

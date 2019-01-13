@@ -2,6 +2,7 @@
 #define OBJECT_H
 
 #include <SFML/Graphics.hpp>
+#include <string>
 
 class Object {
 
@@ -26,6 +27,8 @@ class Object {
             m_speed(speed),
             m_drawable(drawable) {};
 
+        Object(sf::RenderWindow* parent, sf::Vector2f pos, float speed, std::string texturePath);
+
         ~Object(){};
 
         inline sf::Vector2f getPos() const { return m_pos; }
@@ -41,6 +44,7 @@ class Object {
         float m_speed;
         sf::RenderWindow* m_parent;
         sf::Sprite m_drawable;
+        sf::Texture m_texture;
 
 };
 

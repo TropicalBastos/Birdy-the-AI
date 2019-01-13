@@ -10,7 +10,7 @@ class Scene {
         Scene(sf::RenderWindow* parent) : 
             m_parent(parent){};
 
-        ~Scene(){};
+        ~Scene();
 
         unsigned int add(Object* obj);
         void remove(unsigned int index);

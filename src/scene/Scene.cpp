@@ -1,6 +1,14 @@
 #include "Scene.h"
 #include <iostream>
 
+Scene::~Scene()
+{
+    for(auto obj : m_objects)
+    {
+        delete obj;
+    }
+}
+
 unsigned int Scene::add(Object* obj)
 {
     m_objects.push_back(obj);
