@@ -1,6 +1,7 @@
 #include "SceneBuilder.h"
 #include "../object/Birdy.h"
 #include <iostream>
+#include "../grid/Grid.h"
 
 SceneBuilder::SceneBuilder(sf::RenderWindow* parent, unsigned int numTrees) : 
     m_parent(parent),
@@ -10,21 +11,10 @@ SceneBuilder::SceneBuilder(sf::RenderWindow* parent, unsigned int numTrees) :
     initScene();
 }
 
-SceneBuilder::SceneBuilder(sf::RenderWindow* parent, unsigned int numTrees, bool doNotInitScene) : 
-    m_parent(parent),
-    m_numTrees(numTrees),
-    m_scene(new Scene(parent))
-{
-    if(!doNotInitScene){
-        initScene();
-    }
-}
-
 SceneBuilder::SceneBuilder(sf::RenderWindow* parent, unsigned int numTrees, sf::Sprite background)
-    : SceneBuilder(parent, numTrees, true)
+    : SceneBuilder(parent, numTrees)
 {
-    m_scene->add(new Object(parent, {0,0}, 0, background));
-    initScene();
+    m_scene->setBackground(background);
 }
 
 sf::Vector2f SceneBuilder::randomPos() const
@@ -34,8 +24,29 @@ sf::Vector2f SceneBuilder::randomPos() const
     int maxY = m_parent->getSize().y - min;
     int x = rand() % (maxX - min + 1) + min;
     int y = rand() % (maxY - min + 1) + min;
-    std::cout << "Generated x and y are: " << x << "," << y << std::endl;
     return sf::Vector2f(x, y);
+}
+
+TilePosition SceneBuilder::getNextFreeTile() const {
+    Grid& grid = m_scene->getGrid();
+    bool isTileFree = false;
+    Tile foundTile;
+    for(auto tileVector : *(grid.getTileMatrix()))
+    {
+        for(auto tile : tileVector)
+        {
+            if(tile.isOccupied()) continue;
+            foundTile = tile;
+            isTileFree = true;
+            goto endloop;
+        }
+    }
+    endloop:
+    if(isTileFree) {
+        return foundTile.getPos();
+    }
+    // if no tiles free then return the position of the first tile
+    return TilePosition{ 0, 0 };
 }
 
 float SceneBuilder::randomSpeed() const
@@ -50,10 +61,15 @@ SceneBuilder::~SceneBuilder()
 
 void SceneBuilder::initScene()
 {
-    Birdy* birdy = new Birdy(m_parent, randomPos(), randomSpeed());
+    TilePosition randpos = getNextFreeTile();
+    Birdy* birdy = new Birdy(m_parent, { 0, 0 }, randomSpeed());
     m_scene->add(birdy);
     for(int i = 0; i < m_numTrees; i++)
     {
-        m_scene->add(new Object(m_parent, randomPos(), 0, "res/sprites/tree.png"));
+        randpos = getNextFreeTile();
+        std::cout << "tile x: " << randpos.x << " tile y: " << randpos.y << std::endl;
+        // the below means there are no more free tiles so exit the loop
+        if(randpos.x == 0) break;
+        m_scene->add(new Object(m_parent, sf::Vector2f(randpos.x, randpos.y), 0, "res/sprites/tree.png"));
     }
 }

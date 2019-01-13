@@ -10,23 +10,24 @@ class Scene {
     public:
         Scene(sf::RenderWindow* parent) : 
             m_parent(parent),
-            m_grid(Grid(parent, 12, 12)),
-            gridEnabled(false)
+            m_grid(Grid(parent, 6, 5))
         {};
 
-        ~Scene();
+        Scene(sf::RenderWindow* parent, Grid grid) : 
+            m_parent(parent),
+            m_grid(grid)
+        {};
 
-        unsigned int add(Object* obj);
+        void add(Object* obj);
         void remove(unsigned int index);
-        void draw() const;
-        void enableGrid(unsigned int columns, unsigned int rows);
-        inline void disableGrid() { gridEnabled = false; }
+        void draw();
+        inline void setBackground(sf::Sprite background) { m_background = background; }
+        inline Grid& getGrid() { return m_grid; }
 
     private:
-        std::vector<Object*> m_objects;
         sf::RenderWindow* m_parent;
-        bool gridEnabled;
         Grid m_grid;
+        sf::Sprite m_background;
 
 
 };

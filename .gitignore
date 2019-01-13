@@ -4,3 +4,4 @@ birdy
 *.cmake
 CMakeCache.txt
 CMakeFiles
+.vscode

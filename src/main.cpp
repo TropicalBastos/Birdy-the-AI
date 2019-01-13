@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
     sf::RenderWindow window(sf::VideoMode(backgroundSize.x, backgroundSize.y), APP_NAME);
     SceneBuilder sceneBuilder(&window, 3, backgroundSprite);
     Scene* scene = sceneBuilder.getScene();
-    scene->enableGrid(6, 5);
+    scene->getGrid().enableWireframe();
 
     while(window.isOpen())
     {
