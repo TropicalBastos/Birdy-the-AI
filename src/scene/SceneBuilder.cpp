@@ -29,8 +29,12 @@ SceneBuilder::SceneBuilder(sf::RenderWindow* parent, unsigned int numTrees, sf::
 
 sf::Vector2f SceneBuilder::randomPos() const
 {
-    int x = rand() % m_parent->getSize().x;
-    int y = rand() % m_parent->getSize().y;
+    int min = 80;
+    int maxX = m_parent->getSize().x - min;
+    int maxY = m_parent->getSize().y - min;
+    int x = rand() % (maxX - min + 1) + min;
+    int y = rand() % (maxY - min + 1) + min;
+    std::cout << "Generated x and y are: " << x << "," << y << std::endl;
     return sf::Vector2f(x, y);
 }
 
