@@ -10,6 +10,8 @@ int main(int argc, char* argv[])
     SETUP_BACKGROUND
     sf::RenderWindow window(sf::VideoMode(backgroundSize.x, backgroundSize.y), APP_NAME);
     SceneBuilder sceneBuilder(&window, 3, backgroundSprite);
+    Scene* scene = sceneBuilder.getScene();
+    scene->enableGrid(6, 5);
 
     while(window.isOpen())
     {
@@ -21,7 +23,7 @@ int main(int argc, char* argv[])
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        sceneBuilder.getScene()->draw();
+        scene->draw();
     }
 
     return EXIT_SUCCESS;

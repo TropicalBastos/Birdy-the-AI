@@ -27,5 +27,14 @@ void Scene::draw() const
     {
         obj->draw();
     }
+    if(gridEnabled) 
+    {
+        m_grid.draw();
+    }
     m_parent->display();
+}
+
+void Scene::enableGrid(unsigned int columns, unsigned int rows) {
+    m_grid = Grid(m_parent, columns, rows);
+    gridEnabled = true; 
 }
