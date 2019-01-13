@@ -5,8 +5,9 @@
 
 int main(int argc, char* argv[])
 {
-    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), APP_NAME);
-    SceneBuilder sceneBuilder(&window, 3);
+    SETUP_BACKGROUND
+    sf::RenderWindow window(sf::VideoMode(backgroundSize.x, backgroundSize.y), APP_NAME);
+    SceneBuilder sceneBuilder(&window, 3, backgroundSprite);
 
     while(window.isOpen())
     {
