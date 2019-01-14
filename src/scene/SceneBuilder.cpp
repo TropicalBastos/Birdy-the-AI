@@ -34,7 +34,7 @@ TilePosition SceneBuilder::getNextFreeTile() const {
     {
         for(const Tile& tile : tileVector)
         {
-            std::cout << "Is tile " << &tile << " occupied: " << tile.isOccupied() << std::endl;
+            std::cout << "Is tile " << &tile << " occupied: " << (tile.isOccupied() ? "true" : "false") << std::endl;
             if(!tile.isOccupied()) return tile.getPos();
         }
     }
@@ -53,7 +53,7 @@ SceneBuilder::~SceneBuilder()
 
 void SceneBuilder::initScene()
 {
-    Birdy* birdy = new Birdy(m_parent, { 0 , 0 }, randomSpeed());
+    Birdy* birdy = new Birdy(m_parent, { 1 , 1 }, randomSpeed());
     m_scene->add(birdy);
     for(int i = 0; i < m_numTrees; i++)
     {

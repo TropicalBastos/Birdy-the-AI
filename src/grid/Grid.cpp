@@ -23,7 +23,6 @@ void Grid::positionObjectInTile(
     float objHeight = obj->getHeight();
     float x = ((column * width) - (width / 2)) - (objWidth / 2);
     float y = ((row * height) - (height / 2)) - (objHeight / 2);
-    std::cout << "Positioning object at vertex: " << x << ", " << y << std::endl;
     obj->setPos({ x, y });
 }
 
@@ -76,8 +75,8 @@ void Grid::draw() const
 void Grid::add(Object* obj)
 {
     sf::Vector2f pos = obj->getPos();
-    Tile& tile = m_tileMatrix[pos.y][pos.x];
-    std::cout << "Occupying tile " << &tile << std::endl;
+    Tile& tile = m_tileMatrix[pos.y - 1][pos.x - 1];
+    std::cout << "Occupying tile " << &tile << " at pos " << pos.x << "," << pos.y << std::endl;
     tile.occupy();
     TileDimensions dim = tile.getDimensions();
     positionObjectInTile(obj, pos.y, pos.x, dim.width, dim.height);
