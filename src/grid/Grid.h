@@ -9,14 +9,12 @@ class Grid {
         Grid(
             sf::RenderWindow* parent, 
             unsigned int columns, 
-            unsigned int rows,
-            std::vector<Object*> objects = std::vector<Object*>()
+            unsigned int rows
         );
-        ~Grid();
         void add(Object* obj);
         void draw() const;
+        Object* getObjectByGridPosition(int x, int y) const;
         inline TileMatrix* getTileMatrix() { return &m_tileMatrix; }
-        inline std::vector<Object*> getObjects() const { return m_objects; }
         inline void enableWireframe() {  wireframe = true; }
         inline void disableWireframe() { wireframe = false; }
     private:
@@ -25,9 +23,8 @@ class Grid {
         bool wireframe;
         TileMatrix m_tileMatrix;
         sf::RenderWindow* m_parent;
-        std::vector<Object*> m_objects;
 
-        void rebuildTileMatrix();
+        void buildTileMatrix();
         void positionObjectInTile(
             Object* obj, 
             unsigned int row, 

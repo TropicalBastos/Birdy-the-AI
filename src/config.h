@@ -11,4 +11,8 @@
     sf::Vector2u backgroundSize = background.getSize();\
     sf::Sprite backgroundSprite(background);
 
+#define TREE_TEXTURE "res/sprites/tree.png"
+#define BIRDY_TEXTURE "res/sprites/birdy.png"
+#define WORM_TEXTURE "res/sprites/worm.png"
+
 #endif

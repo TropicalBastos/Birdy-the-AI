@@ -19,18 +19,21 @@ class Tile {
         Tile() : 
             m_dim({0, 0}), 
             m_pos({0, 0}),
-            occupied(false){}
+            occupied(false),
+            m_obj(nullptr){}
 
         Tile(TileDimensions dim) : 
             m_dim(dim), 
             m_pos({0, 0}),
-            occupied(false){}
+            occupied(false),
+            m_obj(nullptr){}
 
         
         Tile(TileDimensions dim, TilePosition pos) : 
             m_dim(dim), 
             m_pos(pos),
-            occupied(false){}
+            occupied(false),
+            m_obj(nullptr){}
 
         Tile(TileDimensions dim, TilePosition pos, Object* obj) : 
             m_dim(dim), 
@@ -38,7 +41,13 @@ class Tile {
             m_obj(obj),
             occupied(false){}
 
-        ~Tile(){}
+        ~Tile()
+        {
+            if(m_obj != nullptr)
+            {
+                delete m_obj;
+            }
+        }
 
         inline void occupy() { occupied = true; }
         inline void unoccupy() { occupied = false; }

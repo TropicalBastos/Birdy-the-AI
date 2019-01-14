@@ -2,12 +2,13 @@
 #define Birdy_H
 
 #include "Object.h"
+#include "../config.h"
 
 class Birdy : public Object {
 
     public:
         Birdy(sf::RenderWindow* window, sf::Vector2f pos, float speed) : 
-            Object(window, pos, speed, "res/sprites/birdy.png"){}
+            Object(window, pos, speed, BIRDY_TEXTURE){}
         
         void moveUp();
         void moveDown();
