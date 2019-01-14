@@ -82,3 +82,8 @@ void Grid::add(Object* obj)
     positionObjectInTile(obj, pos.y, pos.x, dim.width, dim.height);
     tile.setObject(obj);
 }
+
+TileVector& Grid::operator[](const unsigned int index)
+{
+    return m_tileMatrix[index];
+}

@@ -41,6 +41,20 @@ TilePosition SceneBuilder::getNextFreeTile() const {
     return TilePosition{ 0, 0 };
 }
 
+TilePosition SceneBuilder::getRandomFreeTile() const {
+    Grid& grid = m_scene->getGrid();
+    size_t matrixSize = grid.size();
+    int row = rand() % (matrixSize);
+    size_t vectorSize = grid[row].size();
+    int column = rand() % (vectorSize);
+    const Tile& tile = grid[row][column];
+    if(tile.isOccupied()) {
+        return getRandomFreeTile();
+    } else {
+        return tile.getPos();
+    }
+}
+
 float SceneBuilder::randomSpeed() const
 {
     return static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
@@ -57,8 +71,15 @@ void SceneBuilder::initScene()
     m_scene->add(birdy);
     for(int i = 0; i < m_numTrees; i++)
     {
-        TilePosition randpos = getNextFreeTile();
-        std::cout << "tile x: " << randpos.x << " tile y: " << randpos.y << std::endl;
-        m_scene->add(new Object(m_parent, { (float)randpos.x, (float)randpos.y }, 0, TREE_TEXTURE));
+        try
+        {
+            TilePosition randpos = getRandomFreeTile();
+            std::cout << "tile x: " << randpos.x << " tile y: " << randpos.y << std::endl;
+            m_scene->add(new Object(m_parent, { (float)randpos.x, (float)randpos.y }, 0, TREE_TEXTURE));
+        } 
+        catch(std::exception& e)
+        {
+            std::cout << e.what() << std::endl;
+        }
     }
 }

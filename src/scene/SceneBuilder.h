@@ -12,6 +12,7 @@ class SceneBuilder {
         ~SceneBuilder();
         sf::Vector2f randomPos() const;
         TilePosition getNextFreeTile() const;
+        TilePosition getRandomFreeTile() const;
         float randomSpeed() const;
         inline Scene* getScene() const { return m_scene; }
 

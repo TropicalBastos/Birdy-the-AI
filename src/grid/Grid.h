@@ -17,6 +17,8 @@ class Grid {
         inline TileMatrix* getTileMatrix() { return &m_tileMatrix; }
         inline void enableWireframe() {  wireframe = true; }
         inline void disableWireframe() { wireframe = false; }
+        TileVector& operator[](const unsigned int index);
+        inline size_t size() const { return m_tileMatrix.size(); }
     private:
         unsigned int columns;
         unsigned int rows;
