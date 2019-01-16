@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "../object/Birdy.h"
 #include <iostream>
 
 void Scene::add(Object* obj)

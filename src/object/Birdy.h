@@ -7,13 +7,19 @@
 class Birdy : public Object {
 
     public:
-        Birdy(sf::RenderWindow* window, sf::Vector2f pos, float speed) : 
-            Object(window, pos, speed, BIRDY_TEXTURE){}
-        
+        static Birdy* createInstance(sf::RenderWindow* window, sf::Vector2f pos, float speed);
+        inline static Birdy* getInstance() { return instance; }
+
         void moveUp();
         void moveDown();
         void moveLeft();
         void moveRight();
+        void move();
+
+    private:
+        Birdy(sf::RenderWindow* window, sf::Vector2f pos, float speed) : 
+            Object(window, pos, speed, BIRDY_TEXTURE){}
+        static Birdy* instance;
 
 };
 

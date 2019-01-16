@@ -67,7 +67,7 @@ SceneBuilder::~SceneBuilder()
 
 void SceneBuilder::initScene()
 {
-    Birdy* birdy = new Birdy(m_parent, { 1 , 1 }, randomSpeed());
+    Birdy* birdy = Birdy::createInstance(m_parent, { 1 , 1 }, randomSpeed());
     m_scene->add(birdy);
     for(int i = 0; i < m_numTrees; i++)
     {

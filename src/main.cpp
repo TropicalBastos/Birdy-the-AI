@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "config.h"
 #include "scene/SceneBuilder.h"
+#include "object/Birdy.h"
 #include <time.h>
 
 int main(int argc, char* argv[])
@@ -23,6 +24,7 @@ int main(int argc, char* argv[])
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+        Birdy::getInstance()->move();
         scene->draw();
     }
 
