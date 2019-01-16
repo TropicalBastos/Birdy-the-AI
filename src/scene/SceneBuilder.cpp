@@ -55,11 +55,6 @@ TilePosition SceneBuilder::getRandomFreeTile() const {
     }
 }
 
-float SceneBuilder::randomSpeed() const
-{
-    return static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-}
-
 SceneBuilder::~SceneBuilder()
 {
     delete m_scene;
@@ -67,7 +62,7 @@ SceneBuilder::~SceneBuilder()
 
 void SceneBuilder::initScene()
 {
-    Birdy* birdy = Birdy::createInstance(m_parent, { 1 , 1 }, randomSpeed());
+    Birdy* birdy = Birdy::createInstance(m_parent, { 1 , 1 }, DEFAULT_BIRDY_SPEED);
     m_scene->add(birdy);
     for(int i = 0; i < m_numTrees; i++)
     {

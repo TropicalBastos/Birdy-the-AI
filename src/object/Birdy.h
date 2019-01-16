@@ -15,11 +15,21 @@ class Birdy : public Object {
         void moveLeft();
         void moveRight();
         void move();
+        
+        enum DIRECTION {
+            LEFT,
+            RIGHT,
+            UP,
+            DOWN
+        };
 
     private:
         Birdy(sf::RenderWindow* window, sf::Vector2f pos, float speed) : 
             Object(window, pos, speed, BIRDY_TEXTURE){}
         static Birdy* instance;
+        DIRECTION direction;
+
+        void resetOriginIfNecessary();
 
 };
 
