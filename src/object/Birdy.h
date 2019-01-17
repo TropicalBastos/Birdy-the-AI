@@ -11,6 +11,7 @@ class Birdy : public Object {
         inline static Birdy* getInstance() { return instance; }
 
         enum DIRECTION {
+            NONE,
             LEFT,
             RIGHT,
             UP,
@@ -31,6 +32,9 @@ class Birdy : public Object {
         Birdy(sf::RenderWindow* window, sf::Vector2f pos, float speed);
         static Birdy* instance;
         DIRECTION direction;
+        long directionChanged;
+
+        void checkBoundaries();
 
 };
 

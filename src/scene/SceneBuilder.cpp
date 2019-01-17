@@ -3,7 +3,7 @@
 #include <iostream>
 #include "../grid/Grid.h"
 #include "../config.h"
-#include "../core/exception.h"
+#include "../core/Exception.h"
 #include <math.h>
 
 SceneBuilder::SceneBuilder(sf::RenderWindow* parent, unsigned int numTrees) : 
@@ -63,7 +63,7 @@ TilePosition SceneBuilder::getFreeAdjacentTile(int originX = 0, int originY = 0)
     }
     else
     {
-        throw birdy::occupied_tile_exception();
+        throw birdy::OccupiedTileException();
     }
 }
 
