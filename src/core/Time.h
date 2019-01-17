@@ -1,3 +1,6 @@
+#ifndef BIRDY_TIME_H
+#define BIRDY_TIME_H
+
 #include <chrono>
 
 namespace birdy
@@ -14,3 +17,5 @@ namespace birdy
     };
 
 }
+
+#endif

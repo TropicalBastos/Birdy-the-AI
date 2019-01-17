@@ -1,5 +1,5 @@
-#ifndef EXCEPTION_H
-#define EXCEPTION_H
+#ifndef BIRDY_EXCEPTION_H
+#define BIRDY_EXCEPTION_H
 
 #include <exception>
 
