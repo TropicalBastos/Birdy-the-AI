@@ -13,6 +13,7 @@ class SceneBuilder {
         sf::Vector2f randomPos() const;
         TilePosition getNextFreeTile() const;
         TilePosition getRandomFreeTile() const;
+        TilePosition getFreeAdjacentTile(int originX, int originY) const;
         inline Scene* getScene() const { return m_scene; }
 
     private:
