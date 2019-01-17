@@ -2,6 +2,11 @@
 
 Birdy* Birdy::instance = nullptr;
 
+Birdy::Birdy(sf::RenderWindow* window, sf::Vector2f pos, float speed) : 
+    Object(window, pos, speed, BIRDY_TEXTURE),
+    direction(static_cast<DIRECTION>(NULL))
+{}
+
 Birdy* Birdy::createInstance(sf::RenderWindow* window, sf::Vector2f pos, float speed)
 {
     if(instance == nullptr)
@@ -13,54 +18,80 @@ Birdy* Birdy::createInstance(sf::RenderWindow* window, sf::Vector2f pos, float s
 
 void Birdy::moveUp()
 {
-    resetOriginIfNecessary();
-    if(direction != DIRECTION::UP){
-        direction = DIRECTION::UP;
-        m_drawable.setRotation(45);
-    }
+    m_drawable.setRotation(45);
     m_pos.y -= m_speed;
 }
 
 void Birdy::moveDown()
 {
-    resetOriginIfNecessary();
-    if(direction != DIRECTION::DOWN){
-        direction = DIRECTION::DOWN;
-        m_drawable.setRotation(270);
-    }
+    m_drawable.setRotation(270);
     m_pos.y += + m_speed;
 }
 
 void Birdy::moveLeft()
 {
-    resetOriginIfNecessary();
-    if(direction != DIRECTION::LEFT){
-        direction = DIRECTION::LEFT;
-        m_drawable.setRotation(0);
-    }
+    m_drawable.setRotation(0);
     m_pos.x -= m_speed;
 }
 
 void Birdy::moveRight()
 {
-    if(direction != DIRECTION::RIGHT){
-        direction = DIRECTION::RIGHT;
-        m_drawable.scale(-1, 1);
-        m_pos.x += getWidth();
-    }
     m_pos.x += m_speed;
-
 }
 
 void Birdy::move()
 {
-    moveRight();
+    if(direction == NULL)
+    {
+        setDirection(DIRECTION::RIGHT);
+    }
+    switch(direction)
+    {
+        case DIRECTION::LEFT:
+            moveLeft();
+            break;
+        case DIRECTION::RIGHT:
+            moveRight();
+            break;
+        case DIRECTION::UP:
+            moveUp();
+            break;
+        case DIRECTION::DOWN:
+            moveDown();
+            break;
+    }
 }
 
-void Birdy::resetOriginIfNecessary()
+void Birdy::flipDirection()
 {
-    if(direction != DIRECTION::RIGHT){
+    switch(direction)
+    {
+        case DIRECTION::LEFT:
+            setDirection(DIRECTION::RIGHT);
+            break;
+        case DIRECTION::RIGHT:
+            setDirection(DIRECTION::LEFT);
+            break;
+        case DIRECTION::UP:
+            setDirection(DIRECTION::DOWN);
+            break;
+        case DIRECTION::DOWN:
+            setDirection(DIRECTION::UP);
+            break;
+    }
+}
+
+void Birdy::setDirection(DIRECTION dir)
+{
+    if(dir == DIRECTION::RIGHT)
+    {
+        m_drawable.scale(-1, 1);
+        m_pos.x += getWidth();
+    }
+    else if(direction == DIRECTION::RIGHT)
+    {
         m_pos.x -= getWidth();
         m_drawable.scale(1, 1);
     }
+    direction = dir;
 }

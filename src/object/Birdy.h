@@ -10,12 +10,6 @@ class Birdy : public Object {
         static Birdy* createInstance(sf::RenderWindow* window, sf::Vector2f pos, float speed);
         inline static Birdy* getInstance() { return instance; }
 
-        void moveUp();
-        void moveDown();
-        void moveLeft();
-        void moveRight();
-        void move();
-        
         enum DIRECTION {
             LEFT,
             RIGHT,
@@ -23,13 +17,20 @@ class Birdy : public Object {
             DOWN
         };
 
+        void moveUp();
+        void moveDown();
+        void moveLeft();
+        void moveRight();
+        void move();
+        void flipDirection();
+
+        inline void setDirection(DIRECTION dir);
+        inline DIRECTION getDirection() const { return direction; }
+
     private:
-        Birdy(sf::RenderWindow* window, sf::Vector2f pos, float speed) : 
-            Object(window, pos, speed, BIRDY_TEXTURE){}
+        Birdy(sf::RenderWindow* window, sf::Vector2f pos, float speed);
         static Birdy* instance;
         DIRECTION direction;
-
-        void resetOriginIfNecessary();
 
 };
 

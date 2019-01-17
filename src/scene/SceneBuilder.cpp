@@ -4,6 +4,7 @@
 #include "../grid/Grid.h"
 #include "../config.h"
 #include "../core/exception.h"
+#include <math.h>
 
 SceneBuilder::SceneBuilder(sf::RenderWindow* parent, unsigned int numTrees) : 
     m_parent(parent),
@@ -44,19 +45,19 @@ TilePosition SceneBuilder::getNextFreeTile() const {
 
 TilePosition SceneBuilder::getFreeAdjacentTile(int originX = 0, int originY = 0) const {
     Grid& grid = m_scene->getGrid();
-    if(!grid[originY][originX + 1].isOccupied())
+    if(originX > 0 && originX < grid[originY].size() && !(grid[originY][originX + 1].isOccupied()))
     {
         return grid[originY][originX + 1].getPos();
     }
-    else if(!grid[originY + 1][originX].isOccupied())
+    else if(originY > 0 && originY < grid[originY].size() && !(grid[originY + 1][originX].isOccupied()))
     {
         return grid[originY + 1][originX].getPos();
     }
-    else if(!grid[originY][originX - 1].isOccupied())
+    else if(originX > 1 && !(grid[originY][originX - 1].isOccupied()))
     {
         return grid[originY][originX - 1].getPos();
     }
-    else if(!grid[originY - 1][originX].isOccupied())
+    else if(originY > 1 && !(grid[originY - 1][originX].isOccupied()))
     {
         return grid[originY - 1][originX].getPos();
     }
@@ -95,13 +96,20 @@ void SceneBuilder::initScene()
         try
         {
             TilePosition randpos = getRandomFreeTile();
-            std::cout << "tile x: " << randpos.x << " tile y: " << randpos.y << std::endl;
-            m_scene->add(new Object(m_parent, { (float)randpos.x, (float)randpos.y }, 0, TREE_TEXTURE));
+            sf::Vector2f treePos;
+            treePos.x = static_cast<float>(floor(randpos.x));
+            treePos.y = static_cast<float>(floor(randpos.y));
+            std::cout << "tile x: " << treePos.x << " tile y: " << treePos.y << std::endl;
+            m_scene->add(new Object(m_parent, treePos, 0, TREE_TEXTURE));
 
             // place worm adjacent to a random tree
             if(!wormPlaced){
-                TilePosition adjacentPos = getFreeAdjacentTile(randpos.x, randpos.y);
-                m_scene->add(new Object(m_parent, { (float)adjacentPos.x, (float)adjacentPos.y }, 0, WORM_TEXTURE));
+                TilePosition adjacentPos = getFreeAdjacentTile(randpos.x - 1, randpos.y - 1);
+                if(adjacentPos.x == 0 || adjacentPos.y == 0) goto endloop;
+                sf::Vector2f wormPos;
+                wormPos.x = static_cast<float>(floor(adjacentPos.x));
+                wormPos.y = static_cast<float>(floor(adjacentPos.y));
+                m_scene->add(new Object(m_parent, wormPos, 0, WORM_TEXTURE));
                 wormPlaced = true;
             }
         } 
@@ -109,5 +117,6 @@ void SceneBuilder::initScene()
         {
             std::cout << e.what() << std::endl;
         }
+        endloop:;
     }
 }
