@@ -2,6 +2,7 @@
 #define CONFIG_H
 
 #define APP_NAME "Birdy the AI"
+#define TARGET_FPS 60
 #define DEFAULT_SCREEN_WIDTH 800
 #define DEFAULT_SCREEN_HEIGHT 600
 
@@ -14,6 +15,8 @@
 #define TREE_TEXTURE "res/sprites/tree.png"
 #define BIRDY_TEXTURE "res/sprites/birdy.png"
 #define WORM_TEXTURE "res/sprites/worm.png"
-#define DEFAULT_BIRDY_SPEED 0.12
+#define DEFAULT_BIRDY_SPEED 1
+
+#define console(x) std::cout << x << std::endl;
 
 #endif

@@ -4,6 +4,7 @@
 #include "scene/SceneBuilder.h"
 #include "object/Birdy.h"
 #include <time.h>
+#include <thread>
 
 int main(int argc, char* argv[])
 {
@@ -14,18 +15,42 @@ int main(int argc, char* argv[])
     Scene* scene = sceneBuilder.getScene();
     scene->getGrid().enableWireframe();
 
+    int fps = 0;
+    sf::Clock clock;
+    int lastTime = clock.getElapsedTime().asMilliseconds();
+    int tick = lastTime;
+    const double MAX_TIME = 1000 / TARGET_FPS;
+
     while(window.isOpen())
     {
-        // Process events
+        int now = clock.getElapsedTime().asMilliseconds();
+        int diff = now - lastTime;
+        lastTime = now;
+        tick += diff;
+        double delta = MAX_TIME - diff;
+
         sf::Event event;
         while (window.pollEvent(event))
         {
-            // Close window: exit
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        Birdy::getInstance()->move();
-        scene->draw();
+
+        if(delta > 0)
+        {
+            Birdy::getInstance()->move();
+            scene->draw();
+            fps++;
+            std::chrono::milliseconds sleepFor(static_cast<int>(delta));
+            std::this_thread::sleep_for(sleepFor);
+        }
+
+        if(tick >= 1000)
+        {
+            std::cout << "FPS: " << fps << std::endl;
+            fps = 0;
+            tick = 0;
+        }
     }
 
     return EXIT_SUCCESS;
