@@ -1,7 +1,10 @@
 Makefile
 myproject
 birdy
-*.cmake
+cmake_install.cmake
+CPackConfig.cmake
+CPackSourceConfig.cmake
+CPackSourceConfig.cmake
 CMakeCache.txt
 CMakeFiles
 .vscode
