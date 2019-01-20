@@ -1,4 +1,5 @@
 #include "Grid.h"
+#include "../core/Exception.h"
 #include <iostream>
 
 Grid::Grid(sf::RenderWindow* parent, unsigned int columns, unsigned int rows) : 
@@ -11,7 +12,7 @@ Grid::Grid(sf::RenderWindow* parent, unsigned int columns, unsigned int rows) :
 }
 
 void Grid::positionObjectInTile(
-    Object* obj, 
+    ObjectInterface* obj, 
     unsigned int row, 
     unsigned int column, 
     float width, 
@@ -72,7 +73,7 @@ void Grid::draw() const
     }
 }
 
-void Grid::add(Object* obj)
+void Grid::add(ObjectInterface* obj)
 {
     sf::Vector2f pos = obj->getPos();
     Tile& tile = m_tileMatrix[pos.y - 1][pos.x - 1];
@@ -86,4 +87,25 @@ void Grid::add(Object* obj)
 TileVector& Grid::operator[](const unsigned int index)
 {
     return m_tileMatrix[index];
+}
+
+const Tile& Grid::getTileByAbsolutePosition(float x, float y)
+{
+    for(const TileVector& vec : m_tileMatrix)
+    {
+        for(const Tile& tile : vec)
+        {
+            TilePosition pos = tile.getPos();
+            TileDimensions dim = tile.getDimensions();
+            float minX = (pos.x * dim.width) - dim.width;
+            float minY = (pos.y * dim.height) - dim.height;
+            float maxX = minX + dim.width;
+            float maxY = minY + dim.height;
+            if(minX < x && pos.y < minY && maxX > x && maxY > y)
+            {
+                return tile;
+            }
+        }
+    }
+    throw birdy::NoTileFoundException();
 }

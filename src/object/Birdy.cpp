@@ -4,8 +4,9 @@
 Birdy* Birdy::instance = nullptr;
 
 Birdy::Birdy(sf::RenderWindow* window, sf::Vector2f pos, float speed) : 
-    Object(window, pos, speed, BIRDY_TEXTURE),
-    direction(DIRECTION::NONE)
+    Object(window, pos, speed, BIRDY_TEXTURE, Object::TAG::BIRDY),
+    direction(DIRECTION::NONE),
+    wormEaten(false)
 {}
 
 Birdy* Birdy::createInstance(sf::RenderWindow* window, sf::Vector2f pos, float speed)
@@ -65,6 +66,12 @@ void Birdy::move()
             break;
         case DIRECTION::NONE:
             break;
+    }
+
+    const Tile& tile =  m_scene->getGrid().getTileByAbsolutePosition(m_pos.x, m_pos.y);
+    if(ai.checkForWorm(tile))
+    {
+        wormEaten = true;
     }
 }
 

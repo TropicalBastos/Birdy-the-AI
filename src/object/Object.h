@@ -3,37 +3,23 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include "../scene/Scene.h"
+#include "ObjectInterface.h"
 
-class Object {
+class Object : public ObjectInterface {
 
     public:
-        Object(){};
-
-        Object(sf::RenderWindow* parent, sf::Vector2f pos) : 
-            m_parent(parent),
-            m_pos(pos), 
-            m_speed(0.5),
-            m_drawable() {};
-
-        Object(sf::RenderWindow* parent, sf::Vector2f pos, float speed) : 
-            m_parent(parent),
-            m_pos(pos), 
-            m_speed(speed),
-            m_drawable() {};
-
-        Object(sf::RenderWindow* parent, sf::Vector2f pos, float speed, sf::Sprite drawable) : 
-            m_parent(parent),
-            m_pos(pos), 
-            m_speed(speed),
-            m_drawable(drawable) {};
-
-        Object(sf::RenderWindow* parent, sf::Vector2f pos, float speed, std::string texturePath);
-
+        Object() : m_tag(ObjectInterface::TAG::NONE){};
+        Object(sf::RenderWindow* parent, sf::Vector2f pos, float speed, std::string texturePath, TAG tag);
         ~Object(){};
 
         inline sf::Vector2f getPos() const { return m_pos; }
         inline void setPos(sf::Vector2f pos) { m_pos = pos; }
         inline void setScale(sf::Vector2f scale) { m_drawable.setScale(scale); }
+        inline void setTag(ObjectInterface::TAG tag) { m_tag = tag; }
+        inline ObjectInterface::TAG getTag() const { return m_tag; }
+        inline Scene* getScene() const { return m_scene; }
+        inline void setScene(Scene* scene) { m_scene = scene; }
 
         void draw();
         sf::FloatRect getSize() const;
@@ -45,6 +31,8 @@ class Object {
         sf::RenderWindow* m_parent;
         sf::Sprite m_drawable;
         sf::Texture m_texture;
+        ObjectInterface::TAG m_tag;
+        Scene* m_scene;
 
 };
 

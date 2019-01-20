@@ -1,24 +1,27 @@
 #ifndef GRID_H
 #define GRID_H
 
+#include "GridInterface.h"
 #include "Tile.h"
 #include <SFML/Graphics.hpp>
 
-class Grid {
+class Grid : public GridInterface 
+{
     public:
         Grid(
             sf::RenderWindow* parent, 
             unsigned int columns, 
             unsigned int rows
         );
-        void add(Object* obj);
+        void add(ObjectInterface* obj);
         void draw() const;
-        Object* getObjectByGridPosition(int x, int y) const;
+        ObjectInterface* getObjectByGridPosition(int x, int y) const;
         inline TileMatrix* getTileMatrix() { return &m_tileMatrix; }
         inline void enableWireframe() {  wireframe = true; }
         inline void disableWireframe() { wireframe = false; }
         TileVector& operator[](const unsigned int index);
         inline size_t size() const { return m_tileMatrix.size(); }
+        const Tile& getTileByAbsolutePosition(float x, float y);
     private:
         unsigned int columns;
         unsigned int rows;
@@ -28,7 +31,7 @@ class Grid {
 
         void buildTileMatrix();
         void positionObjectInTile(
-            Object* obj, 
+            ObjectInterface* obj, 
             unsigned int row, 
             unsigned int column, 
             float width, 

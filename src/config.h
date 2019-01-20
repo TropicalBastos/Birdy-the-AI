@@ -15,7 +15,7 @@
 #define TREE_TEXTURE "res/sprites/tree.png"
 #define BIRDY_TEXTURE "res/sprites/birdy.png"
 #define WORM_TEXTURE "res/sprites/worm.png"
-#define DEFAULT_BIRDY_SPEED 1
+#define DEFAULT_BIRDY_SPEED 2
 
 #define console(x) std::cout << x << std::endl;
 

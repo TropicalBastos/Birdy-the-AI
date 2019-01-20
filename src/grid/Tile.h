@@ -2,7 +2,9 @@
 #define TILE_H
 
 #include <vector>
-#include "../object/Object.h"
+#include "../object/ObjectInterface.h"
+
+class Object;
 
 struct TileDimensions {
     float width;
@@ -35,7 +37,7 @@ class Tile {
             occupied(false),
             m_obj(nullptr){}
 
-        Tile(TileDimensions dim, TilePosition pos, Object* obj) : 
+        Tile(TileDimensions dim, TilePosition pos, ObjectInterface* obj) : 
             m_dim(dim), 
             m_pos(pos),
             m_obj(obj),
@@ -54,15 +56,16 @@ class Tile {
         inline bool isOccupied() const  { return occupied; }
         inline TileDimensions getDimensions() const { return m_dim; }
         inline TilePosition getPos() const { return m_pos; }
-        inline void setObject(Object* obj) { m_obj = obj; }
-        inline Object* getObject() const { return m_obj; }
+        inline void setObject(ObjectInterface* obj) { m_obj = obj; }
+        inline ObjectInterface* getObject() const { return m_obj; }
         inline void draw() const { m_obj->draw(); }
+        inline bool hasObject() const { return m_obj != nullptr; }
 
     private:
         TilePosition m_pos;
         TileDimensions m_dim;
         bool occupied;
-        Object* m_obj;
+        ObjectInterface* m_obj;
 };
 
 typedef std::vector<Tile> TileVector;

@@ -3,6 +3,7 @@
 #include "config.h"
 #include "scene/SceneBuilder.h"
 #include "object/Birdy.h"
+#include "core/Transition.h"
 #include <time.h>
 #include <thread>
 
@@ -38,8 +39,17 @@ int main(int argc, char* argv[])
 
         if(delta > 0)
         {
-            Birdy::getInstance()->move();
-            scene->draw();
+            Birdy* bird = Birdy::getInstance();
+            if(bird->wormEaten)
+            {
+                birdy::displayTransition(&window, "BIRDY ATE THE WORM, LEARNING...");
+                //sceneBuilder.resetScene();
+            } 
+            else
+            {
+                bird->move();
+                scene->draw();
+            }
             fps++;
             std::chrono::milliseconds sleepFor(static_cast<int>(delta));
             std::this_thread::sleep_for(sleepFor);

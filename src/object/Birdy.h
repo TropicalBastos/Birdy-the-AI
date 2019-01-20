@@ -3,6 +3,7 @@
 
 #include "Object.h"
 #include "../config.h"
+#include "../ai/BirdyAI.h"
 
 class Birdy : public Object {
 
@@ -28,11 +29,14 @@ class Birdy : public Object {
         inline void setDirection(DIRECTION dir);
         inline DIRECTION getDirection() const { return direction; }
 
+        bool wormEaten;
+
     private:
         Birdy(sf::RenderWindow* window, sf::Vector2f pos, float speed);
         static Birdy* instance;
         DIRECTION direction;
         long directionChanged;
+        BirdyAI ai;
 
         void checkBoundaries();
 

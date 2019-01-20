@@ -86,6 +86,13 @@ SceneBuilder::~SceneBuilder()
     delete m_scene;
 }
 
+void SceneBuilder::resetScene()
+{
+    delete m_scene;
+    m_scene = new Scene(m_parent);
+    initScene();
+}
+
 void SceneBuilder::initScene()
 {
     bool wormPlaced = false;
@@ -100,7 +107,7 @@ void SceneBuilder::initScene()
             treePos.x = static_cast<float>(floor(randpos.x));
             treePos.y = static_cast<float>(floor(randpos.y));
             std::cout << "tile x: " << treePos.x << " tile y: " << treePos.y << std::endl;
-            m_scene->add(new Object(m_parent, treePos, 0, TREE_TEXTURE));
+            m_scene->add(new Object(m_parent, treePos, 0, TREE_TEXTURE, Object::TAG::TREE));
 
             // place worm adjacent to a random tree
             if(!wormPlaced){
@@ -109,7 +116,7 @@ void SceneBuilder::initScene()
                 sf::Vector2f wormPos;
                 wormPos.x = static_cast<float>(floor(adjacentPos.x));
                 wormPos.y = static_cast<float>(floor(adjacentPos.y));
-                m_scene->add(new Object(m_parent, wormPos, 0, WORM_TEXTURE));
+                m_scene->add(new Object(m_parent, wormPos, 0, WORM_TEXTURE, Object::TAG::WORM));
                 wormPlaced = true;
             }
         } 

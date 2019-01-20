@@ -1,11 +1,11 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "../object/Object.h"
+#include "SceneInterface.h"
 #include "../grid/Grid.h"
 #include <vector>
 
-class Scene {
+class Scene : public SceneInterface {
 
     public:
         Scene(sf::RenderWindow* parent) : 
@@ -18,7 +18,7 @@ class Scene {
             m_grid(grid)
         {};
 
-        void add(Object* obj);
+        void add(ObjectInterface* obj);
         void remove(unsigned int index);
         void draw();
         inline void setBackground(sf::Sprite background) { m_background = background; }

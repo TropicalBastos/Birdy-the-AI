@@ -15,6 +15,7 @@ class SceneBuilder {
         TilePosition getRandomFreeTile() const;
         TilePosition getFreeAdjacentTile(int originX, int originY) const;
         inline Scene* getScene() const { return m_scene; }
+        void resetScene();
 
     private:
         Scene* m_scene;

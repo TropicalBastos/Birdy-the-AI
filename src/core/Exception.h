@@ -14,6 +14,14 @@ namespace birdy
         }
     };
 
+    class NoTileFoundException : public std::exception 
+    {
+        const char* what()
+        {
+            return "No tiles could be found";
+        }
+    };
+
 }
 
 #endif

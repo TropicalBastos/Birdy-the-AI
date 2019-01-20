@@ -1,9 +1,10 @@
 #include "Scene.h"
-#include "../object/Birdy.h"
+#include "../object/ObjectInterface.h"
 #include <iostream>
 
-void Scene::add(Object* obj)
+void Scene::add(ObjectInterface* obj)
 {
+    obj->setScene(this);
     m_grid.add(obj);
 }
 
