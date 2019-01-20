@@ -101,7 +101,7 @@ const Tile& Grid::getTileByAbsolutePosition(float x, float y)
             float minY = (pos.y * dim.height) - dim.height;
             float maxX = minX + dim.width;
             float maxY = minY + dim.height;
-            if(minX < x && pos.y < minY && maxX > x && maxY > y)
+            if(minX < x && minY < y && maxX > x && maxY > y)
             {
                 return tile;
             }
