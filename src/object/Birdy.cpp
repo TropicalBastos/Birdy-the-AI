@@ -1,5 +1,6 @@
 #include "Birdy.h"
 #include "../core/Time.h"
+#include <iostream>
 
 Birdy* Birdy::instance = nullptr;
 
@@ -40,6 +41,13 @@ void Birdy::moveRight()
 
 void Birdy::move()
 {
+    const Tile& tile =  m_scene->getGrid().getTileByAbsolutePosition(m_pos.x, m_pos.y);
+    if(abs(directionChanged - birdy::Time::timestamp()) > 1)
+    {
+        setDirection(ai.decide(tile));
+        directionChanged = birdy::Time::timestamp(); 
+    }
+
     checkBoundaries();
 
     switch(direction)
@@ -56,11 +64,10 @@ void Birdy::move()
         case DIRECTION::DOWN:
             moveDown();
             break;
-        case DIRECTION::NONE:
+        default:
             break;
     }
 
-    const Tile& tile =  m_scene->getGrid().getTileByAbsolutePosition(m_pos.x, m_pos.y);
     if(ai.checkForWorm(tile))
     {
         wormEaten = true;
@@ -83,8 +90,8 @@ void Birdy::flipDirection()
         case DIRECTION::DOWN:
             setDirection(DIRECTION::UP);
             break;
-        case DIRECTION::NONE:
-            setDirection(DIRECTION::NONE);
+        case DIRECTION::NOWHERE:
+            setDirection(DIRECTION::NOWHERE);
             break;
     }
 }
@@ -112,7 +119,7 @@ void Birdy::setDirection(DIRECTION dir)
 
 void Birdy::checkBoundaries()
 {
-    if(abs(directionChanged - birdy::Time::timestamp()) < 2)
+    if(abs(directionFlipped - birdy::Time::timestamp()) < 2)
     {
         return;
     }
@@ -127,5 +134,6 @@ void Birdy::checkBoundaries()
     ){
         flipDirection();
         directionChanged = birdy::Time::timestamp();
+        directionFlipped = directionChanged;
     }
 }

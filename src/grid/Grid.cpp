@@ -41,6 +41,7 @@ void Grid::buildTileMatrix()
             TileDimensions td{ tileWidth, tileHeight };
             TilePosition tp{ j + 1, i + 1 };
             Tile tile(td, tp);
+            tile.setParentMatrix(&m_tileMatrix);
             m_tileMatrix[i].push_back(tile);
         }
     }

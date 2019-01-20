@@ -60,12 +60,15 @@ class Tile {
         inline ObjectInterface* getObject() const { return m_obj; }
         inline void draw() const { m_obj->draw(); }
         inline bool hasObject() const { return m_obj != nullptr; }
+        inline void setParentMatrix(std::vector<std::vector<Tile>>* matrix) { parentMatrix = matrix; }
+        inline std::vector<std::vector<Tile>>* getParentMatrix() const { return parentMatrix; }
 
     private:
         TilePosition m_pos;
         TileDimensions m_dim;
         bool occupied;
         ObjectInterface* m_obj;
+        std::vector<std::vector<Tile>>* parentMatrix;
 };
 
 typedef std::vector<Tile> TileVector;

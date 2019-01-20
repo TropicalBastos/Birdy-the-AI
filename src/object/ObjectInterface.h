@@ -8,6 +8,14 @@ class Scene;
 class ObjectInterface 
 {
     public:
+        enum DIRECTION {
+            NOWHERE,
+            LEFT,
+            RIGHT,
+            UP,
+            DOWN
+        };
+
         enum TAG 
         {
             NONE,
@@ -15,6 +23,7 @@ class ObjectInterface
             TREE,
             WORM
         };
+
         virtual ~ObjectInterface(){};
         virtual void draw() = 0;
         virtual sf::FloatRect getSize() const = 0;

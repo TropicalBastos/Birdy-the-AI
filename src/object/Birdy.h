@@ -11,14 +11,6 @@ class Birdy : public Object {
         static Birdy* createInstance(sf::RenderWindow* window, sf::Vector2f pos, float speed);
         inline static Birdy* getInstance() { return instance; }
 
-        enum DIRECTION {
-            NONE,
-            LEFT,
-            RIGHT,
-            UP,
-            DOWN
-        };
-
         void moveUp();
         void moveDown();
         void moveLeft();
@@ -36,6 +28,7 @@ class Birdy : public Object {
         static Birdy* instance;
         DIRECTION direction;
         long directionChanged;
+        long directionFlipped;
         BirdyAI ai;
 
         void checkBoundaries();
