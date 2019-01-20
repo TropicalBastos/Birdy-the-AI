@@ -8,7 +8,7 @@
 class Controller
 {
     public:
-        static void control(sf::Event event, Birdy* bird)
+        static void dispatch(sf::Event event, Birdy* bird)
         {
             if(event.KeyPressed)
             {

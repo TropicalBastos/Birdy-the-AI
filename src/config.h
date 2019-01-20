@@ -13,7 +13,7 @@
     sf::Sprite backgroundSprite(background);
 
 #define TREE_TEXTURE "res/sprites/tree.png"
-#define BIRDY_TEXTURE "res/sprites/birdy.png"
+#define BIRDY_TEXTURE "res/sprites/bird/birdy-right.png"
 #define WORM_TEXTURE "res/sprites/worm.png"
 #define DEFAULT_BIRDY_SPEED 2
 

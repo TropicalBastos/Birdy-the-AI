@@ -5,7 +5,7 @@ Birdy* Birdy::instance = nullptr;
 
 Birdy::Birdy(sf::RenderWindow* window, sf::Vector2f pos, float speed) : 
     Object(window, pos, speed, BIRDY_TEXTURE, Object::TAG::BIRDY),
-    direction(DIRECTION::NONE),
+    direction(DIRECTION::RIGHT),
     wormEaten(false)
 {}
 
@@ -20,19 +20,16 @@ Birdy* Birdy::createInstance(sf::RenderWindow* window, sf::Vector2f pos, float s
 
 void Birdy::moveUp()
 {
-    m_drawable.setRotation(45);
     m_pos.y -= m_speed;
 }
 
 void Birdy::moveDown()
 {
-    m_drawable.setRotation(270);
-    m_pos.y += + m_speed;
+    m_pos.y += m_speed;
 }
 
 void Birdy::moveLeft()
 {
-    m_drawable.setRotation(0);
     m_pos.x -= m_speed;
 }
 
@@ -43,11 +40,6 @@ void Birdy::moveRight()
 
 void Birdy::move()
 {
-    if(direction == NONE)
-    {
-        setDirection(DIRECTION::RIGHT);
-    }
-
     checkBoundaries();
 
     switch(direction)
@@ -99,15 +91,21 @@ void Birdy::flipDirection()
 
 void Birdy::setDirection(DIRECTION dir)
 {
-    if(dir == DIRECTION::RIGHT && (direction != DIRECTION::UP && direction != DIRECTION::DOWN))
+    if(dir == DIRECTION::LEFT)
     {
-        m_drawable.scale(-1, 1);
-        m_pos.x += getWidth();
+        m_texture.loadFromFile("res/sprites/bird/birdy-left.png");
     }
-    else if(dir == DIRECTION::LEFT && (direction != DIRECTION::UP && direction != DIRECTION::DOWN))
+    else if(dir == DIRECTION::RIGHT)
     {
-        m_pos.x -= getWidth();
-        m_drawable.scale(-1, 1);
+        m_texture.loadFromFile("res/sprites/bird/birdy-right.png");
+    }
+    else if(dir == DIRECTION::UP)
+    {
+        m_texture.loadFromFile("res/sprites/bird/birdy-up.png");
+    }
+    else if(dir == DIRECTION::DOWN)
+    {
+        m_texture.loadFromFile("res/sprites/bird/birdy-down.png");
     }
     direction = dir;
 }
@@ -124,8 +122,8 @@ void Birdy::checkBoundaries()
     if(
         m_pos.x + width >= windowSize.x ||
         m_pos.y + height >= windowSize.y ||
-        m_pos.x <= 0 ||
-        m_pos.y <= 0
+        m_pos.x < 1 ||
+        m_pos.y < 1
     ){
         flipDirection();
         directionChanged = birdy::Time::timestamp();

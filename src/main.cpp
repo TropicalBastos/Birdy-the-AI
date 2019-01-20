@@ -3,6 +3,7 @@
 #include "config.h"
 #include "scene/SceneBuilder.h"
 #include "object/Birdy.h"
+#include "core/Controller.h"
 #include "core/Transition.h"
 #include <time.h>
 #include <thread>
@@ -29,17 +30,19 @@ int main(int argc, char* argv[])
         lastTime = now;
         tick += diff;
         double delta = MAX_TIME - diff;
+        Birdy* bird = Birdy::getInstance();
 
         sf::Event event;
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            else
+                Controller::dispatch(event, bird);
         }
 
         if(delta > 0)
         {
-            Birdy* bird = Birdy::getInstance();
             if(bird->wormEaten)
             {
                 birdy::displayTransition(&window, "BIRDY ATE THE WORM, LEARNING...");

@@ -101,7 +101,8 @@ const Tile& Grid::getTileByAbsolutePosition(float x, float y)
             float minY = (pos.y * dim.height) - dim.height;
             float maxX = minX + dim.width;
             float maxY = minY + dim.height;
-            if(minX < x && minY < y && maxX > x && maxY > y)
+            //std::cout << "minX " << minX << " < birdyX " << x << ", minY " << minY << " < birdyY " << y << ", maxX " << maxX << " > birdyX " << x << ", maxY " << maxY << " > birdyY " << y << std::endl;
+            if(minX <= x && minY <= y && maxX >= x && maxY >= y)
             {
                 return tile;
             }
