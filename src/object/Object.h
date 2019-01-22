@@ -11,7 +11,6 @@ class Object : public ObjectInterface {
     public:
         Object() : m_tag(ObjectInterface::TAG::NONE){};
         Object(sf::RenderWindow* parent, sf::Vector2f pos, float speed, std::string texturePath, TAG tag);
-        ~Object(){};
 
         inline sf::Vector2f getPos() const { return m_pos; }
         inline void setPos(sf::Vector2f pos) { m_pos = pos; }

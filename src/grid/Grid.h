@@ -13,7 +13,7 @@ class Grid : public GridInterface
             unsigned int columns, 
             unsigned int rows
         );
-        void add(ObjectInterface* obj);
+        void add(ObjectInterface* obj, bool beginning = false);
         void draw() const;
         ObjectInterface* getObjectByGridPosition(int x, int y) const;
         inline TileMatrix* getTileMatrix() { return &m_tileMatrix; }
@@ -22,6 +22,7 @@ class Grid : public GridInterface
         TileVector& operator[](const unsigned int index);
         inline size_t size() const { return m_tileMatrix.size(); }
         const Tile& getTileByAbsolutePosition(float x, float y);
+        const int occupiedTiles() const;
     private:
         unsigned int columns;
         unsigned int rows;

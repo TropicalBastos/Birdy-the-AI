@@ -5,8 +5,11 @@
 #include "object/Birdy.h"
 #include "core/Controller.h"
 #include "core/Transition.h"
+#include "core/BackgroundThread.h"
 #include <time.h>
 #include <thread>
+#include <memory>
+#include <atomic>
 
 int main(int argc, char* argv[])
 {
@@ -16,6 +19,7 @@ int main(int argc, char* argv[])
     SceneBuilder sceneBuilder(&window, 3, backgroundSprite);
     Scene* scene = sceneBuilder.getScene();
     scene->getGrid().enableWireframe();
+    birdy::BackgroundThread backgroundThread;
 
     int fps = 0;
     sf::Clock clock;
@@ -30,7 +34,6 @@ int main(int argc, char* argv[])
         lastTime = now;
         tick += diff;
         double delta = MAX_TIME - diff;
-        Birdy* bird = Birdy::getInstance();
 
         sf::Event event;
         while (window.pollEvent(event))
@@ -38,20 +41,24 @@ int main(int argc, char* argv[])
             if (event.type == sf::Event::Closed)
                 window.close();
             else
-                Controller::dispatch(event, bird);
+                Controller::dispatch(event, Birdy::getInstance());
         }
 
         if(delta > 0)
         {
-            if(bird->wormEaten)
+            if(Birdy::getInstance()->wormEaten)
             {
-                birdy::displayTransition(&window, "BIRDY ATE THE WORM, LEARNING...");
-                //sceneBuilder.resetScene();
+                if(!backgroundThread.backgroundThreadCreated)
+                {
+                    birdy::displayTransition(&window, "BIRDY ATE THE WORM, LEARNING...");
+                    backgroundThread.start(&birdy::birdyTransition, Birdy::getInstance(), &sceneBuilder);
+                    std::cout << "Thread " << backgroundThread.getId() << " has started" << std::endl;
+                }
             } 
             else
             {
-                bird->move();
-                scene->draw();
+                Birdy::getInstance()->move();
+                sceneBuilder.getScene()->draw();
             }
             fps++;
             std::chrono::milliseconds sleepFor(static_cast<int>(delta));

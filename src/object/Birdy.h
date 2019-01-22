@@ -4,6 +4,7 @@
 #include "Object.h"
 #include "../config.h"
 #include "../ai/BirdyAI.h"
+#include <atomic>
 
 class Birdy : public Object {
 
@@ -21,7 +22,7 @@ class Birdy : public Object {
         inline void setDirection(DIRECTION dir);
         inline DIRECTION getDirection() const { return direction; }
 
-        bool wormEaten;
+        std::atomic_bool wormEaten;
 
     private:
         Birdy(sf::RenderWindow* window, sf::Vector2f pos, float speed);

@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <thread>
 #include "../scene/Scene.h"
 
 namespace birdy

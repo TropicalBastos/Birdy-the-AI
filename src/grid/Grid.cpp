@@ -1,6 +1,7 @@
 #include "Grid.h"
 #include "../core/Exception.h"
 #include <iostream>
+#include "../object/Object.h"
 
 Grid::Grid(sf::RenderWindow* parent, unsigned int columns, unsigned int rows) : 
         m_parent(parent),
@@ -40,7 +41,7 @@ void Grid::buildTileMatrix()
         {
             TileDimensions td{ tileWidth, tileHeight };
             TilePosition tp{ j + 1, i + 1 };
-            Tile tile(td, tp);
+            Tile tile(td, tp, new Object());
             tile.setParentMatrix(&m_tileMatrix);
             m_tileMatrix[i].push_back(tile);
         }
@@ -74,9 +75,14 @@ void Grid::draw() const
     }
 }
 
-void Grid::add(ObjectInterface* obj)
+void Grid::add(ObjectInterface* obj, bool beginning)
 {
     sf::Vector2f pos = obj->getPos();
+    if(beginning)
+    {
+        pos.x = 1;
+        pos.y = 1;
+    }
     Tile& tile = m_tileMatrix[pos.y - 1][pos.x - 1];
     std::cout << "Occupying tile " << &tile << " at pos " << pos.x << "," << pos.y << std::endl;
     tile.occupy();
@@ -110,4 +116,18 @@ const Tile& Grid::getTileByAbsolutePosition(float x, float y)
         }
     }
     throw birdy::NoTileFoundException();
+}
+
+const int Grid::occupiedTiles() const
+{
+    int occupiedTiles = 0;
+    for(const TileVector& vec : m_tileMatrix)
+    {
+        for(const Tile& tile : vec)
+        {
+            if(tile.isOccupied())
+                occupiedTiles++;
+        }
+    }
+    return occupiedTiles;
 }

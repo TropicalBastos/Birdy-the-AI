@@ -18,11 +18,12 @@ class Scene : public SceneInterface {
             m_grid(grid)
         {};
 
-        void add(ObjectInterface* obj);
+        void add(ObjectInterface* obj, bool beggining = false);
         void remove(unsigned int index);
         void draw();
         inline void setBackground(sf::Sprite background) { m_background = background; }
         inline Grid& getGrid() { return m_grid; }
+        void resetObjects();
 
     private:
         sf::RenderWindow* m_parent;

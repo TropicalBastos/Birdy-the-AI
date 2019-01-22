@@ -6,18 +6,14 @@
 #include "../core/Exception.h"
 #include <math.h>
 
-SceneBuilder::SceneBuilder(sf::RenderWindow* parent, unsigned int numTrees) : 
+SceneBuilder::SceneBuilder(sf::RenderWindow* parent, unsigned int numTrees, sf::Sprite background) : 
     m_parent(parent),
     m_numTrees(numTrees),
-    m_scene(new Scene(parent))
-{
-    initScene();
-}
-
-SceneBuilder::SceneBuilder(sf::RenderWindow* parent, unsigned int numTrees, sf::Sprite background)
-    : SceneBuilder(parent, numTrees)
+    m_scene(new Scene(parent)),
+    m_background(background)
 {
     m_scene->setBackground(background);
+    initScene();
 }
 
 sf::Vector2f SceneBuilder::randomPos() const
@@ -81,23 +77,25 @@ TilePosition SceneBuilder::getRandomFreeTile() const {
     }
 }
 
-SceneBuilder::~SceneBuilder()
-{
-    delete m_scene;
-}
-
 void SceneBuilder::resetScene()
 {
-    delete m_scene;
-    m_scene = new Scene(m_parent);
-    initScene();
+    m_scene->resetObjects();
+    initScene(true);
 }
 
-void SceneBuilder::initScene()
+void SceneBuilder::initScene(bool reInit)
 {
+    std::cout << "Number of occupied tiles are: " << m_scene->getGrid().occupiedTiles() << std::endl;
     bool wormPlaced = false;
-    Birdy* bird = Birdy::createInstance(m_parent, { 1 , 1 }, DEFAULT_BIRDY_SPEED);
-    m_scene->add(bird);
+    if(reInit)
+    {
+        Birdy::getInstance()->setPos({20 , 20});
+    } 
+    else
+    {
+        Birdy* bird = Birdy::createInstance(m_parent, { 1 , 1 }, DEFAULT_BIRDY_SPEED);
+        m_scene->add(bird, true);
+    }
     for(int i = 0; i < m_numTrees; i++)
     {
         try

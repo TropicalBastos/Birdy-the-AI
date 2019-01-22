@@ -8,7 +8,7 @@ class SceneInterface {
 
     public:
         virtual ~SceneInterface(){};
-        virtual void add(ObjectInterface* obj) = 0;
+        virtual void add(ObjectInterface* obj, bool beginning = false) = 0;
         virtual void remove(unsigned int index) = 0;
         virtual void draw() = 0;
 
