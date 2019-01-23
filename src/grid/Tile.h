@@ -20,28 +20,10 @@ struct TilePosition
 
 class Tile {
     public:
-        Tile() : 
-            m_dim({0, 0}), 
-            m_pos({0, 0}),
-            occupied(false){}
-
-        Tile(TileDimensions dim) : 
-            m_dim(dim), 
-            m_pos({0, 0}),
-            occupied(false){}
-
-        
-        Tile(TileDimensions dim, TilePosition pos) : 
-            m_dim(dim), 
-            m_pos(pos),
-            occupied(false){}
-
-        Tile(TileDimensions dim, TilePosition pos, ObjectInterface* obj) : 
-            m_dim(dim), 
-            m_pos(pos),
-            m_obj(obj),
-            occupied(false){}
-
+        Tile();
+        Tile(TileDimensions dim);
+        Tile(TileDimensions dim, TilePosition pos);
+        Tile(TileDimensions dim, TilePosition pos, ObjectInterface* obj);
         ~Tile(){}
 
         inline void occupy() { occupied = true; }
@@ -49,45 +31,13 @@ class Tile {
         inline bool isOccupied() const  { return occupied; }
         inline TileDimensions getDimensions() const { return m_dim; }
         inline TilePosition getPos() const { return m_pos; }
-
-        inline void setObject(ObjectInterface* obj) 
-        { 
-            if(obj->getTag() != ObjectInterface::TAG::BIRDY)
-            {
-                isBirdy = false;
-                m_obj = std::shared_ptr<ObjectInterface>(obj); 
-            } else 
-            {
-                isBirdy = true;
-                m_birdy = obj;
-            }
-        }
-
-        inline ObjectInterface* getObject() const 
-        { 
-            if(isBirdy)
-            {
-                return m_birdy;
-            } else
-            {
-                return m_obj.get();
-            }
-        }
-
-        inline void draw() const 
-        { 
-            if(isBirdy)
-            {
-                m_birdy->draw();
-            } else 
-            {
-                m_obj->draw(); 
-            }
-        }
-        
         inline bool hasObject() const { return m_obj.get() != nullptr; }
         inline void setParentMatrix(std::vector<std::vector<Tile>>* matrix) { parentMatrix = matrix; }
         inline std::vector<std::vector<Tile>>* getParentMatrix() const { return parentMatrix; }
+
+        void setObject(ObjectInterface* obj);
+        ObjectInterface* getObject() const;
+        void draw() const;
 
     private:
         TilePosition m_pos;
