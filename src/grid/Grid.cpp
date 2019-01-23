@@ -41,7 +41,7 @@ void Grid::buildTileMatrix()
         {
             TileDimensions td{ tileWidth, tileHeight };
             TilePosition tp{ j + 1, i + 1 };
-            Tile tile(td, tp, new Object());
+            Tile tile(td, tp, NULL);
             tile.setParentMatrix(&m_tileMatrix);
             m_tileMatrix[i].push_back(tile);
         }
@@ -67,7 +67,8 @@ void Grid::draw() const
                 m_parent->draw(tile);
             }
             if(currentTile.isOccupied()){
-                currentTile.draw();
+                if(currentTile.getObject()->getTag() != ObjectInterface::TAG::NONE)
+                    currentTile.draw();
             }
             column++;
         }

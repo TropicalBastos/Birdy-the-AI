@@ -80,22 +80,14 @@ TilePosition SceneBuilder::getRandomFreeTile() const {
 void SceneBuilder::resetScene()
 {
     m_scene->resetObjects();
-    initScene(true);
+    initScene();
 }
 
-void SceneBuilder::initScene(bool reInit)
+void SceneBuilder::initScene()
 {
-    std::cout << "Number of occupied tiles are: " << m_scene->getGrid().occupiedTiles() << std::endl;
     bool wormPlaced = false;
-    if(reInit)
-    {
-        Birdy::getInstance()->setPos({20 , 20});
-    } 
-    else
-    {
-        Birdy* bird = Birdy::createInstance(m_parent, { 1 , 1 }, DEFAULT_BIRDY_SPEED);
-        m_scene->add(bird, true);
-    }
+    Birdy* bird = Birdy::createInstance(m_parent, { 1 , 1 }, DEFAULT_BIRDY_SPEED);
+    m_scene->add(bird, true);
     for(int i = 0; i < m_numTrees; i++)
     {
         try

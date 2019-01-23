@@ -12,10 +12,7 @@ Birdy::Birdy(sf::RenderWindow* window, sf::Vector2f pos, float speed) :
 
 Birdy* Birdy::createInstance(sf::RenderWindow* window, sf::Vector2f pos, float speed)
 {
-    if(instance == nullptr)
-    {
-        instance = new Birdy(window, pos, speed);
-    }
+    instance = new Birdy(window, pos, speed);
     return instance;
 }
 

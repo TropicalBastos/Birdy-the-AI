@@ -3,16 +3,17 @@
 
 #include <vector>
 #include <memory>
+#include <iostream>
 #include "../object/ObjectInterface.h"
 
-class Object;
-
-struct TileDimensions {
+struct TileDimensions 
+{
     float width;
     float height;
 };
 
-struct TilePosition {
+struct TilePosition 
+{
     unsigned int x;
     unsigned int y;
 };
@@ -51,7 +52,7 @@ class Tile {
         inline void setObject(ObjectInterface* obj) { m_obj = std::shared_ptr<ObjectInterface>(obj); }
         inline ObjectInterface* getObject() const { return m_obj.get(); }
         inline void draw() const { m_obj->draw(); }
-        inline bool hasObject() const { return m_obj != nullptr; }
+        inline bool hasObject() const { return m_obj.get() != nullptr; }
         inline void setParentMatrix(std::vector<std::vector<Tile>>* matrix) { parentMatrix = matrix; }
         inline std::vector<std::vector<Tile>>* getParentMatrix() const { return parentMatrix; }
 

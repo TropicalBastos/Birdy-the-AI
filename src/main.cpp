@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
                 if(!backgroundThread.backgroundThreadCreated)
                 {
                     birdy::displayTransition(&window, "BIRDY ATE THE WORM, LEARNING...");
-                    backgroundThread.start(&birdy::birdyTransition, Birdy::getInstance(), &sceneBuilder);
+                    backgroundThread.start(&birdy::birdyTransitionTimer, Birdy::getInstance(), &sceneBuilder);
                     std::cout << "Thread " << backgroundThread.getId() << " has started" << std::endl;
                 }
             } 

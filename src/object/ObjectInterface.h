@@ -24,7 +24,7 @@ class ObjectInterface
             WORM
         };
 
-        virtual ~ObjectInterface(){};
+        virtual ~ObjectInterface(){}
         virtual void draw() = 0;
         virtual sf::FloatRect getSize() const = 0;
         virtual float getWidth() const = 0;

@@ -23,7 +23,7 @@ class SceneBuilder {
         sf::RenderWindow* m_parent;
         sf::Sprite m_background;
         int m_numTrees;
-        void initScene(bool reInit = false);
+        void initScene();
 
 
 };

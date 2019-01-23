@@ -14,7 +14,7 @@ namespace birdy
     // have the below function run on a background thread
     // as the main thread renders a transition segment between scenes
     // wormEaten is the control point that activates the reset of a scene when its set to false
-    void birdyTransition(std::atomic_bool* backgroundThreadCreated, Birdy* bird, SceneBuilder* sceneBuilder)
+    void birdyTransitionTimer(std::atomic_bool* backgroundThreadCreated, Birdy* bird, SceneBuilder* sceneBuilder)
     {
         backgroundThreadCreated->store(true);
         std::this_thread::sleep_for(std::chrono::milliseconds(3000));

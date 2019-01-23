@@ -9,12 +9,6 @@ void Scene::add(ObjectInterface* obj, bool beginning)
     m_grid.add(obj, beginning);
 }
 
-void Scene::remove(unsigned int index)
-{
-    TileMatrix* matrix = m_grid.getTileMatrix();
-    matrix->erase(matrix->begin() + index);
-}
-
 void Scene::draw()
 {
     m_parent->clear();
@@ -25,13 +19,15 @@ void Scene::draw()
 
 void Scene::resetObjects()
 {
-    TileMatrix matrix = *m_grid.getTileMatrix();
-    for(TileVector& vec : matrix)
+    TileMatrix* matrix = m_grid.getTileMatrix();
+    for(int i = 0; i < matrix->size(); i++)
     {
-        for(Tile& tile : vec)
+        TileVector* vecPtr = &matrix->at(i);
+        for(int j = 0; j < vecPtr->size(); j++)
         {
-            tile.setObject(new Object());
-            tile.unoccupy();
+            Tile* tilePtr = &vecPtr->at(j);
+            tilePtr->setObject(new Object());
+            tilePtr->unoccupy();
         }
     }
 }
