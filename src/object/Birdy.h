@@ -23,6 +23,7 @@ class Birdy : public Object {
         inline DIRECTION getDirection() const { return direction; }
 
         std::atomic_bool wormEaten;
+        int numWormsEaten;
 
     private:
         Birdy(sf::RenderWindow* window, sf::Vector2f pos, float speed);

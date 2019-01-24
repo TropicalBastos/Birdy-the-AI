@@ -29,43 +29,82 @@ void BirdyAI::learnTile(const Tile& tile)
     learnedTiles.push_back(learnedData);
 }
 
-// ObjectTag BirdyAI::majorityTag(std::vector<ObjectTag> tags)
-// {
-//     if(tags.size() == 0)
-//     {
-//         return ObjectTag::NONE;
-//     }
-//     std::unordered_map<ObjectTag, int> map;
-//     ObjectTag mostFrequentTag = tags[0];
-//     for(auto tag : tags)
-//     {
-//         map[tag] = 0;
-//     }
-//     for(auto tag : tags)
-//     {
-//         map[tag] = map[tag]++;
-//     }
-//     mostFrequentTag = tags[0];
-//     for(auto tag : tags)
-//     {
-//         if(map[tag] > map[mostFrequentTag])
-//         {
-//             mostFrequentTag = tag;
-//         }
-//     }
-//     return mostFrequentTag;
-// }
+ObjectTag BirdyAI::majorityTag(std::vector<ObjectTag> tags)
+{
+    if(tags.size() == 0)
+    {
+        return ObjectTag::NONE;
+    }
+    std::unordered_map<int, int> map;
+    ObjectTag mostFrequentTag = tags[0];
+    for(const auto& tag : tags)
+    {
+        map[static_cast<int>(tag)] = 0;
+    }
+    for(const auto& tag : tags)
+    {
+        map[static_cast<int>(tag)] = map[tag] + 1;
+    }
+    mostFrequentTag = tags[0];
+    for(const auto& tag : tags)
+    {
+        if(map[static_cast<int>(tag)] > map[mostFrequentTag])
+        {
+            mostFrequentTag = tag;
+        }
+    }
+    return mostFrequentTag;
+}
 
-// ObjectInterface::DIRECTION getDirectionByTag(ObjectTag tag, TileMatrix searchMatrix)
-// {
-//     for(const TileVector& vec : searchMatrix)
-//     {
-//         for(const Tile& tile : vec)
-//         {
-
-//         }
-//     }
-// }
+ObjectInterface::DIRECTION BirdyAI::getDirectionByTag(const Tile& currentTile, ObjectTag tag, TileMatrix searchMatrix)
+{
+    for(const TileVector& vec : searchMatrix)
+    {
+        for(const Tile& tile : vec)
+        {
+            if(tile.isOccupied())
+            {
+                if(tile.getObject()->getTag() == tag)
+                {
+                    auto currentPos = currentTile.getPos();
+                    auto targetPos = tile.getPos();
+                    if(currentPos.x == targetPos.x && currentPos.y < targetPos.y)
+                    {
+                        return ObjectInterface::DOWN;
+                    }
+                    else if(currentPos.x == targetPos.x && currentPos.y > targetPos.y)
+                    {
+                        return ObjectInterface::UP;
+                    }
+                    else if(currentPos.y == targetPos.y && currentPos.x < targetPos.x)
+                    {
+                        return ObjectInterface::RIGHT;
+                    }
+                    else if(currentPos.y == targetPos.y && currentPos.x > targetPos.x)
+                    {
+                        return ObjectInterface::LEFT;
+                    }
+                    else if(currentPos.x < targetPos.x)
+                    {
+                        return ObjectInterface::RIGHT;
+                    }
+                    else if(currentPos.x > targetPos.x)
+                    {
+                        return ObjectInterface::LEFT;
+                    }
+                    else if(currentPos.y > targetPos.y)
+                    {
+                        return ObjectInterface::UP;
+                    }
+                    else if(currentPos.y < targetPos.y)
+                    {
+                        return ObjectInterface::DOWN;
+                    }
+                }
+            }
+        }
+    }
+}
 
 ObjectInterface::DIRECTION BirdyAI::decide(const Tile& currentTile)
 {
@@ -74,13 +113,13 @@ ObjectInterface::DIRECTION BirdyAI::decide(const Tile& currentTile)
         ObjectInterface::DIRECTION dir = static_cast<ObjectInterface::DIRECTION>((rand() % 4) + 1);
         return dir;
     }
-    // TileMatrix* matrix = currentTile.getParentMatrix();
-    // std::vector<ObjectTag> tags;
-    // for(auto learned : learnedTiles)
-    // {
-    //     tags.push_back(learned.tag);
-    // }
-    // ObjectTag mostFrequent = majorityTag(tags);
-    return ObjectInterface::DIRECTION::RIGHT;
+    TileMatrix* matrix = currentTile.getParentMatrix();
+    std::vector<ObjectTag> tags;
+    for(auto learned : learnedTiles)
+    {
+        tags.push_back(learned.tag);
+    }
+    ObjectTag mostFrequent = majorityTag(tags);
+    return getDirectionByTag(currentTile, mostFrequent, *matrix);
 }
 

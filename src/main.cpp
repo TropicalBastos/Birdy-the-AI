@@ -51,9 +51,23 @@ int main(int argc, char* argv[])
                 {
                     if(!backgroundThread.backgroundThreadCreated)
                     {
-                        birdy::displayTransition(&window, "BIRDY ATE THE WORM, LEARNING...");
-                        backgroundThread.start(&birdy::birdyTransitionTimer, Birdy::getInstance(), &sceneBuilder);
-                        std::cout << "Thread " << backgroundThread.getId() << " has started" << std::endl;
+                        if(Birdy::getInstance()->numWormsEaten == 1)
+                        {
+                            birdy::displayTransition(&window, "BIRDY ATE THE WORM, LEARNING...");
+                            backgroundThread.start(&birdy::birdyTransitionTimer, Birdy::getInstance(), &sceneBuilder);
+                            std::cout << "Thread " << backgroundThread.getId() << " has started" << std::endl;
+                        }
+                        else if(Birdy::getInstance()->numWormsEaten == 2)
+                        {
+                            birdy::displayTransition(&window, "BIRDY NOW KNOWS WHERE TO LOOK");
+                            backgroundThread.start(&birdy::birdyTransitionTimer, Birdy::getInstance(), &sceneBuilder);
+                            std::cout << "Thread " << backgroundThread.getId() << " has started" << std::endl;
+                        }
+                        else
+                        {
+                            sceneBuilder.resetScene();
+                            Birdy::getInstance()->wormEaten = false;
+                        }
                     }
                 } 
                 else

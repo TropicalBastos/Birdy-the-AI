@@ -25,7 +25,8 @@ class BirdyAI
         void learnTile(const Tile& tile);
         bool checkForWorm(const Tile& tile);
         ObjectInterface::DIRECTION decide(const Tile& currentTile);
-        // ObjectTag majorityTag(std::vector<ObjectTag> tags);
+        ObjectTag majorityTag(std::vector<ObjectTag> tags);
+        ObjectInterface::DIRECTION getDirectionByTag(const Tile& currentTile, ObjectTag tag, TileMatrix searchMatrix);
 
     private:
         std::vector<LearnableData> learnedTiles;

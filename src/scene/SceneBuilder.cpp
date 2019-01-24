@@ -80,13 +80,21 @@ TilePosition SceneBuilder::getRandomFreeTile() const {
 void SceneBuilder::resetScene()
 {
     m_scene->resetObjects();
-    initScene();
+    initScene(false);
 }
 
-void SceneBuilder::initScene()
+void SceneBuilder::initScene(bool firstTime)
 {
     bool wormPlaced = false;
-    Birdy* bird = Birdy::createInstance(m_parent, { 1 , 1 }, DEFAULT_BIRDY_SPEED);
+    Birdy* bird;
+    if(!firstTime)
+    {
+        bird = Birdy::getInstance();
+    }
+    else
+    {
+        bird = Birdy::createInstance(m_parent, { 1 , 1 }, DEFAULT_BIRDY_SPEED);
+    }
     m_scene->add(bird, true);
     for(int i = 0; i < m_numTrees; i++)
     {
