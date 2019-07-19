@@ -9,7 +9,7 @@ A program that microsimulates a bird's life finding and eating worms. The bird i
 
 ## Brief
 
-Essentially a neural network at its most simplest form, the code could do with an architectural overhaul but it works for now apart from a few bugs. Contributions to improve any aspect of the software are very welcome. I would post issues but I am not actively maintaining this project as I have a lot of other projects on my hands.
+Essentially a neural network at its most simplest form, the code could do with an architectural overhaul but it works for now. Contributions to improve any aspect of the software are very welcome. I would post issues but I am not actively maintaining this project as I have a lot of other projects on my hands.
 
 ## Build
 
