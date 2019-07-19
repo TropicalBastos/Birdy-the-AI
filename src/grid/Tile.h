@@ -39,6 +39,8 @@ class Tile {
         ObjectInterface* getObject() const;
         void draw() const;
 
+        bool noTile;
+
     private:
         TilePosition m_pos;
         TileDimensions m_dim;

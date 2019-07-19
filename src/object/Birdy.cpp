@@ -41,17 +41,8 @@ void Birdy::moveRight()
     m_pos.x += m_speed;
 }
 
-void Birdy::move()
+void Birdy::moveInternal()
 {
-    const Tile& tile =  m_scene->getGrid().getTileByAbsolutePosition(m_pos.x, m_pos.y);
-    if(abs(directionChanged - birdy::Time::timestamp()) > 0)
-    {
-        setDirection(ai.decide(tile));
-        directionChanged = birdy::Time::timestamp(); 
-    }
-
-    checkBoundaries();
-
     switch(direction)
     {
         case DIRECTION::LEFT:
@@ -69,6 +60,27 @@ void Birdy::move()
         default:
             break;
     }
+}
+
+void Birdy::move()
+{
+    const Tile& tile =  m_scene->getGrid().getTileByAbsolutePosition(m_pos.x, m_pos.y);
+    
+    if (tile.noTile) 
+    {
+        flipDirection();
+        directionChanged = birdy::Time::timestamp(); 
+        moveInternal();
+        return;
+    }
+    else if(abs(directionChanged - birdy::Time::timestamp()) > 0)
+    {
+        setDirection(ai.decide(tile));
+        directionChanged = birdy::Time::timestamp(); 
+    }
+
+    checkBoundaries();
+    moveInternal();
 
     if(ai.checkForWorm(tile))
     {

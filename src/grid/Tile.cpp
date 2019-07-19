@@ -3,24 +3,28 @@
 Tile::Tile(): 
     m_dim({0, 0}), 
     m_pos({0, 0}),
-    occupied(false){}
+    occupied(false),
+    noTile(false){}
 
 Tile::Tile(TileDimensions dim) : 
     m_dim(dim), 
     m_pos({0, 0}),
-    occupied(false){}
+    occupied(false),
+    noTile(false){}
 
 
 Tile::Tile(TileDimensions dim, TilePosition pos) : 
     m_dim(dim), 
     m_pos(pos),
-    occupied(false){}
+    occupied(false),
+    noTile(false){}
 
 Tile::Tile(TileDimensions dim, TilePosition pos, ObjectInterface* obj) : 
     m_dim(dim), 
     m_pos(pos),
     m_obj(obj),
-    occupied(false){}
+    occupied(false),
+    noTile(false){}
 
 void Tile::setObject(ObjectInterface* obj) 
 { 

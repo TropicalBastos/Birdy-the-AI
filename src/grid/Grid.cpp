@@ -116,7 +116,10 @@ const Tile& Grid::getTileByAbsolutePosition(float x, float y)
             }
         }
     }
-    throw birdy::NoTileFoundException();
+
+    Tile noTile;
+    noTile.noTile = true;
+    return noTile;
 }
 
 const int Grid::occupiedTiles() const

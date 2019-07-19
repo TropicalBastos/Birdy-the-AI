@@ -17,6 +17,7 @@ class Birdy : public Object {
         void moveLeft();
         void moveRight();
         void move();
+        void moveInternal();
         void flipDirection();
 
         inline void setDirection(DIRECTION dir);
