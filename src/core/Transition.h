@@ -21,9 +21,10 @@ namespace birdy
         rect.setFillColor(sf::Color(0, 0, 0, 100));
         sf::Text text;
         text.setString(str);
-        text.setPosition(windowSize.x / 4, windowSize.y / 2);
+        uint32_t textPixelSize = text.getCharacterSize() * str.length();
+        uint32_t textPixelHalfSize = textPixelSize / 2;
+        text.setPosition((windowSize.x / 2) - textPixelHalfSize / 2, windowSize.y / 2);
         text.setFillColor(sf::Color(255, 255, 255, 100));
-        text.setCharacterSize(20);
         text.setFont(font);
         parent->draw(rect);
         parent->draw(text);

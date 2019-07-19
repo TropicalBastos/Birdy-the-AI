@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
 
             if(tick >= 1000)
             {
-                std::cout << "FPS: " << fps << std::endl;
+                //std::cout << "FPS: " << fps << std::endl;
                 fps = 0;
                 tick = 0;
             }
