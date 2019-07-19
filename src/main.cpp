@@ -40,9 +40,19 @@ int main(int argc, char* argv[])
             while (window.pollEvent(event))
             {
                 if (event.type == sf::Event::Closed)
+                {
                     window.close();
+                    if(backgroundThread.backgroundThreadCreated)
+                    {
+                        backgroundThread.threadDead.store(true);
+                        std::thread* bthread = backgroundThread.GetThread();
+                        bthread->detach();
+                    }
+                }
                 else
+                {
                     Controller::dispatch(event, Birdy::getInstance());
+                }
             }
 
             if(delta > 0)
@@ -54,13 +64,13 @@ int main(int argc, char* argv[])
                         if(Birdy::getInstance()->numWormsEaten == 1)
                         {
                             birdy::displayTransition(&window, "BIRDY ATE THE WORM, LEARNING...");
-                            backgroundThread.start(&birdy::birdyTransitionTimer, Birdy::getInstance(), &sceneBuilder);
+                            backgroundThread.start(&birdy::birdyTransitionTimer, Birdy::getInstance(), &sceneBuilder, &backgroundThread.threadDead);
                             std::cout << "Thread " << backgroundThread.getId() << " has started" << std::endl;
                         }
                         else if(Birdy::getInstance()->numWormsEaten == 2)
                         {
                             birdy::displayTransition(&window, "BIRDY NOW KNOWS WHERE TO LOOK");
-                            backgroundThread.start(&birdy::birdyTransitionTimer, Birdy::getInstance(), &sceneBuilder);
+                            backgroundThread.start(&birdy::birdyTransitionTimer, Birdy::getInstance(), &sceneBuilder, &backgroundThread.threadDead);
                             std::cout << "Thread " << backgroundThread.getId() << " has started" << std::endl;
                         }
                         else

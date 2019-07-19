@@ -14,10 +14,17 @@ namespace birdy
     // have the below function run on a background thread
     // as the main thread renders a transition segment between scenes
     // wormEaten is the control point that activates the reset of a scene when its set to false
-    void birdyTransitionTimer(std::atomic_bool* backgroundThreadCreated, Birdy* bird, SceneBuilder* sceneBuilder)
+    void birdyTransitionTimer(std::atomic_bool* backgroundThreadCreated, 
+        Birdy* bird, 
+        SceneBuilder* sceneBuilder, 
+        std::atomic_bool* threadDead)
     {
         backgroundThreadCreated->store(true);
         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+
+        if (threadDead)
+            return;
+
         sceneBuilder->resetScene();
         bird->wormEaten = false;
         backgroundThreadCreated->store(false);
@@ -27,15 +34,23 @@ namespace birdy
     class BackgroundThread 
     {
         public:
-            BackgroundThread() : backgroundThreadCreated(false){}
+            BackgroundThread() : backgroundThreadCreated(false), threadDead(false){}
             ~BackgroundThread()
             {
                 if(m_thread != nullptr)
                 {
+                    if (threadDead)
+                    {
+                        delete m_thread;
+                        return;
+                    }
+                        
                     m_thread->join();
                     delete m_thread;
                 }
             }
+
+            inline std::thread* GetThread() const { return m_thread; }
 
             template<class Function, class... Args>
             void start(Function function, Args... args)
@@ -49,6 +64,7 @@ namespace birdy
             }
 
             std::atomic_bool backgroundThreadCreated;
+            std::atomic_bool threadDead;
 
         private:
             std::thread* m_thread = nullptr;
