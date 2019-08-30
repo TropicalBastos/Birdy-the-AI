@@ -19,4 +19,6 @@
 
 #define console(x) std::cout << x << std::endl;
 
+#define TRANSITION_TIME 3000
+
 #endif

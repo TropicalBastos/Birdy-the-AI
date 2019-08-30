@@ -5,7 +5,6 @@
 #include "object/Birdy.h"
 #include "core/Controller.h"
 #include "core/Transition.h"
-#include "core/BackgroundThread.h"
 #include <time.h>
 #include <thread>
 #include <memory>
@@ -20,7 +19,8 @@ int main(int argc, char* argv[])
         SceneBuilder sceneBuilder(&window, 3, backgroundSprite);
         Scene* scene = sceneBuilder.getScene();
         scene->getGrid().enableWireframe();
-        birdy::BackgroundThread backgroundThread;
+        bool transition = false;
+        int transitionStart = 0;
 
         int fps = 0;
         sf::Clock clock;
@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
         int tick = lastTime;
         const double MAX_TIME = 1000 / TARGET_FPS;
 
-        while(window.isOpen())
+        while (window.isOpen())
         {
             int now = clock.getElapsedTime().asMilliseconds();
             int diff = now - lastTime;
@@ -42,12 +42,6 @@ int main(int argc, char* argv[])
                 if (event.type == sf::Event::Closed)
                 {
                     window.close();
-                    if(backgroundThread.backgroundThreadCreated)
-                    {
-                        backgroundThread.threadDead.store(true);
-                        std::thread* bthread = backgroundThread.GetThread();
-                        bthread->detach();
-                    }
                 }
                 else
                 {
@@ -55,29 +49,38 @@ int main(int argc, char* argv[])
                 }
             }
 
-            if(delta > 0)
+            if (delta > 0)
             {
-                if(Birdy::getInstance()->wormEaten)
+                if (Birdy::getInstance()->wormEaten)
                 {
-                    if(!backgroundThread.backgroundThreadCreated)
+                    if (!transition)
                     {
-                        if(Birdy::getInstance()->numWormsEaten == 1)
-                        {
-                            birdy::displayTransition(&window, "BIRDY ATE THE WORM, LEARNING...");
-                            backgroundThread.start(&birdy::birdyTransitionTimer, Birdy::getInstance(), &sceneBuilder, &backgroundThread.threadDead);
-                            std::cout << "Thread " << backgroundThread.getId() << " has started" << std::endl;
-                        }
-                        else if(Birdy::getInstance()->numWormsEaten == 2)
-                        {
-                            birdy::displayTransition(&window, "BIRDY NOW KNOWS WHERE TO LOOK");
-                            backgroundThread.start(&birdy::birdyTransitionTimer, Birdy::getInstance(), &sceneBuilder, &backgroundThread.threadDead);
-                            std::cout << "Thread " << backgroundThread.getId() << " has started" << std::endl;
-                        }
-                        else
+                        if (Birdy::getInstance()->numWormsEaten > 2)
                         {
                             sceneBuilder.resetScene();
                             Birdy::getInstance()->wormEaten = false;
                         }
+                        else
+                        {
+                            if (Birdy::getInstance()->numWormsEaten == 1)
+                            {
+                                birdy::displayTransition(&window, "BIRDY ATE THE WORM, LEARNING...");
+                            }
+                            else if (Birdy::getInstance()->numWormsEaten == 2)
+                            {
+                                birdy::displayTransition(&window, "BIRDY NOW KNOWS WHERE TO LOOK");
+                            }
+
+                            transition = true;
+                            transitionStart = clock.getElapsedTime().asMilliseconds();
+                        }
+                    }
+                    else if (transition && (now - transitionStart) > TRANSITION_TIME)
+                    {
+                        transition = false;
+                        transitionStart = 0;
+                        sceneBuilder.resetScene();
+                        Birdy::getInstance()->wormEaten = false;
                     }
                 } 
                 else
@@ -85,12 +88,13 @@ int main(int argc, char* argv[])
                     Birdy::getInstance()->move();
                     sceneBuilder.getScene()->draw();
                 }
+
                 fps++;
                 std::chrono::milliseconds sleepFor(static_cast<int>(delta));
                 std::this_thread::sleep_for(sleepFor);
             }
 
-            if(tick >= 1000)
+            if (tick >= 1000)
             {
                 //std::cout << "FPS: " << fps << std::endl;
                 fps = 0;
